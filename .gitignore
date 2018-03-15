@@ -64,3 +64,5 @@ freeline/
 freeline_project_description.json
 .idea/vcs.xml
 app/libs/
+/.idea/
+/.idea/caches/build_file_checksums.ser
