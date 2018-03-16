@@ -6,6 +6,6 @@ import example.messaging.cloud.luis.cloudmessagingexample.utils.GCMUtils
 class GCMIDListenerService : InstanceIDListenerService() {
 
     override fun onTokenRefresh() {
-        GCMUtils.registerDevice(this, "")
+        GCMUtils.registerDevice(this, "1050174432146")
     }
 }

@@ -10,9 +10,11 @@ class GCMIntentService: GcmListenerService() {
     override fun onMessageReceived(from: String, data: Bundle) {
         val mNotificationHelper = NotificationsHelper(this)
 
+        val payload = data["message"]?.let { it -> it as String } ?: "no message found in payload"
+
         val notification = mNotificationHelper.getNotificationDefault(
-            "title",
-            "body"
+            "Cloud Messaging Example",
+            payload
         )
 
         mNotificationHelper.notify(Random().nextInt() , notification)
