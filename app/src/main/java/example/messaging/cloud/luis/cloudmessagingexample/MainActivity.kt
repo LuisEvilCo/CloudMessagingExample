@@ -5,6 +5,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import example.messaging.cloud.luis.cloudmessagingexample.utils.GCMUtils
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -16,8 +17,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            GCMUtils.registerPush(this)
+            Snackbar.make(view, "Registering for push notifications", Snackbar.LENGTH_LONG).show()
         }
     }
 
