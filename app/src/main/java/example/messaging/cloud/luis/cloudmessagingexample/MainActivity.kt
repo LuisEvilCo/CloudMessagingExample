@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import example.messaging.cloud.luis.cloudmessagingexample.utils.GCMUtils
-
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
+            // example of code running after some user interaction like an ok button on a dialog
             GCMUtils.registerPush(this)
             Snackbar.make(view, "Registering for push notifications", Snackbar.LENGTH_LONG).show()
         }

@@ -1,22 +1,24 @@
 package example.messaging.cloud.luis.cloudmessagingexample.services
 
-import android.os.Bundle
-import com.google.android.gms.gcm.GcmListenerService
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 import example.messaging.cloud.luis.cloudmessagingexample.helpers.NotificationsHelper
 import java.util.*
 
-class GCMIntentService: GcmListenerService() {
+class GCMIntentService: FirebaseMessagingService() {
+    override fun onMessageReceived(message: RemoteMessage) {
+        val from: String? = message.from
+        val data = message.data
 
-    override fun onMessageReceived(from: String, data: Bundle) {
-        val mNotificationHelper = NotificationsHelper(this)
+        val mNotificationsHelper = NotificationsHelper(this)
 
-        val payload = data["message"]?.let { it -> it as String } ?: "no message found in payload"
+        val payload = data["message"] ?: "no message found in payload"
 
-        val notification = mNotificationHelper.getNotificationDefault(
+        val notification = mNotificationsHelper.getNotificationDefault(
             "Cloud Messaging Example",
             payload
         )
 
-        mNotificationHelper.notify(Random().nextInt() , notification)
+        mNotificationsHelper.notify(Random().nextInt(), notification)
     }
 }
