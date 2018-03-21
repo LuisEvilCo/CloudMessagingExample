@@ -9,8 +9,7 @@ import android.text.TextUtils
 import android.util.Log
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.gcm.GoogleCloudMessaging
-import com.google.android.gms.iid.InstanceID
+import com.google.firebase.iid.FirebaseInstanceId
 import java.io.IOException
 
 
@@ -20,18 +19,16 @@ object GCMUtils {
     // leaking a strong reference to context
     // look into : ScheduleExecutorService
     @SuppressLint("StaticFieldLeak")
-    fun registerDevice(context: Context, senderId : String ) {
+    fun registerDevice(context: Context) {
 
         object : AsyncTask<Void, Void, String>() {
 
             override fun doInBackground(vararg voids: Void): String? {
                 //val gcm = getInstance(context)
                 return try {
-                    val instanceID = InstanceID.getInstance(context)
-                    val registrationId =
-                        instanceID.getToken(senderId, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null)
-                    Log.i("GCMUTILS", registrationId)
-                    registrationId
+                    val registrationToken = FirebaseInstanceId.getInstance().token
+                    Log.d("FCMUTILS",registrationToken )
+                    registrationToken
                 } catch (e: IOException) {
                     e.printStackTrace()
                     null
@@ -58,13 +55,13 @@ object GCMUtils {
      * Gets SharedPreferences for GCM (Google Cloud Messaging).
      * @return SharedPreferences object
      */
-    private fun getGCMSharedPreferences(context: Context): SharedPreferences {
+    private fun getFCMSharedPreferences(context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
         //return Application().applicationContext.getSharedPreferences("GCM", Context.MODE_PRIVATE)
     }
 
     private fun storeRegistrationId(context: Context, registrationId: String) {
-        val preferences = getGCMSharedPreferences(context)
+        val preferences = getFCMSharedPreferences(context)
         // store registration id and current version of application
         val editor = preferences.edit()
         editor.putString("token", registrationId)
@@ -79,7 +76,7 @@ object GCMUtils {
     }
 
     private fun getResgistrationId(context: Context) : String {
-        val preferences = getGCMSharedPreferences(context
+        val preferences = getFCMSharedPreferences(context
         )
         return preferences.getString("token", "")
     }
@@ -95,10 +92,10 @@ object GCMUtils {
                 Log.i("GCMUTILS", "already register")
                 Log.i("GCMUTILS", getResgistrationId(context))
             } else {
-                registerDevice(context, "1050174432146")
+                registerDevice(context)
             }
         } else {
-            Log.i("GCMUtils", "Cant register device, google service is not available ")
+            Log.i("GCMUTILS", "Cant register device, google service is not available ")
         }
     }
 

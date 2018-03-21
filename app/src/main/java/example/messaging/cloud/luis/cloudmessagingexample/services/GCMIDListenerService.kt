@@ -1,11 +1,12 @@
 package example.messaging.cloud.luis.cloudmessagingexample.services
 
-import com.google.android.gms.iid.InstanceIDListenerService
+import com.google.firebase.iid.FirebaseInstanceIdService
 import example.messaging.cloud.luis.cloudmessagingexample.utils.GCMUtils
 
-class GCMIDListenerService : InstanceIDListenerService() {
+
+class GCMIDListenerService : FirebaseInstanceIdService() {
 
     override fun onTokenRefresh() {
-        GCMUtils.registerDevice(this, "1050174432146")
+        GCMUtils.registerDevice(this) // senderId is not needed since we have google-services.json
     }
 }
